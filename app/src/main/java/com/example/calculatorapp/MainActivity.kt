@@ -27,40 +27,23 @@ class MainActivity : AppCompatActivity() {
         binding.btnZero.setOnClickListener { appendExpression("0",true) }
         binding.btnDot.setOnClickListener { appendExpression(",",true) }
 
-        //Operators
 
-        //Error control for divide
+
+        // Operators
         binding.btnDivide.setOnClickListener {
-            val text = binding.tvExpression.text.toString()
-            if(text.endsWith("/0")){
-                binding.tvExpression.text = "Bir sayıyı 0'a bölemezsiniz"
-            }else{
-                appendExpression("/",true)
-            }
+            appendExpression("/",true)
         }
         binding.btnPercentage.setOnClickListener { appendExpression("%",true) }
         binding.btnMult.setOnClickListener { appendExpression("*",true) }
         binding.btnMinus.setOnClickListener { appendExpression("-",true) }
         binding.btnAdd.setOnClickListener { appendExpression("+",true) }
-
         binding.btnAC.setOnClickListener { deleteAll() }
-
         binding.btnEqual.setOnClickListener {
-            val operators = arrayOf("+","-","/","*")
-            val text = binding.tvExpression.text.toString()
-            if(text.endsWith(operators.toString())) {
-                deleteLast()
-                calculate()
-            }else{
-                calculate()
-            }
-
+            calculate()
         }
-
         binding.btnDEL.setOnClickListener {
            deleteLast()
         }
-
     }
 
     private fun appendExpression(expression : String, clear : Boolean) {
@@ -87,6 +70,10 @@ class MainActivity : AppCompatActivity() {
         } catch (e: IllegalArgumentException) {
             binding.tvResult.text = ""
         }
+        // Division by zero exception
+        catch (e: ArithmeticException) {
+            binding.tvResult.text = getString(R.string.division_by_zero)
+        }
     }
     private fun deleteAll() {
         binding.tvExpression.text = ""
@@ -104,13 +91,11 @@ class MainActivity : AppCompatActivity() {
             }else{
                 binding.tvResult.text = result.toString()
             }
-        }catch (e : java.lang.ArithmeticException) {
-            binding.tvResult.text = "Hata"
         }catch (e : java.lang.Exception) {
-            binding.tvResult.text = "Error"
+            binding.tvResult.text = getString(R.string.exception)
         }
         binding.btnPercentage.setOnClickListener {
-            appendExpression("/100", false)
+            appendExpression("/100", true)
         }
     }
     private fun deleteLast() {
