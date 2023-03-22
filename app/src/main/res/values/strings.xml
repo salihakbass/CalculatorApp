@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CalculatorApp</string>
+    <string name="division_by_zero">Sıfır ile bölünemiyor</string>
+    <string name="exception">Hata!</string>
+</resources>
